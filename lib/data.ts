@@ -61,7 +61,7 @@ export const projectsData = [
   {
     title: "Genius",
     description:
-      "I led a team to create an advanced AI platform with five tools. We used Next.js for smooth navigation and integrated Stripe for payments. Our tech mix included React, Tailwind, Prisma, MySQL, Clerk, and more, giving users rich learning experiences.",
+      " I created a groundbreaking SaaS AI Platform that transforms text into diverse content, revolutionizing content creation with unmatched efficiency.",
     tags: ["React", "Next.js", "Stripe", "Tailwind", "Prisma"],
     imageUrl: Genius,
     links: 'https://github.com/SatyaisCoding/genius',
@@ -69,15 +69,15 @@ export const projectsData = [
   {
     title: "StudyNotion",
     description:
-      "Developed StudyNotion, a fully functional ed-tech platform using the MERN Stack, enabling content creation, consumption, and rating, with proficiency in ReactJS, NodeJS, MongoDB, and ExpressJS, employing REST API design principles, deploying via Vercel, Render.com, and Railway.app, and integrating MongoDB Atlas for efficient database management.",
+      "Developed StudyNotion, a fully functional ed-tech platform using the MERN Stack, enabling content creation, consumption and rating Educational Content.",
     tags: ["React", "ExpressJS", "NodeJS", "Tailwind", "MongoDB"],
     imageUrl: StudyNotion,
     links:'https://github.com/SatyaisCoding/StudyNotion_An-Edu-Tech-Platform',
   },
   {
-    title: "Word Analytics",
+    title: "Insight-Xplorer",
     description:
-      "Developed a SaaS product with an AI-powered chatbot for PDF interaction, utilizing PlanetScale MySQL, Prisma, trpc, Pinecone, Langchain, KindeAuth, and Stripe for secure user profiles, data transfer, optimization, authentication, and payments.",
+      "Developed a SAAS product with an AI-powered chatbot enabling seamless interaction with PDFs through questions, providing insightful answers.",
     tags: ["React", "Next.js", "Prisma", "Tailwind", "tRPC"],
     imageUrl: InsightXplorer,
     links:'https://github.com/SatyaisCoding/Insight-Xplorer',
