@@ -1,10 +1,11 @@
+'use client'
 import React from "react";
 import { CgWorkAlt } from "react-icons/cg";
 import { FaReact } from "react-icons/fa";
 import { LuGraduationCap } from "react-icons/lu";
-import corpcommentImg from "@/public/corpcomment.png";
-import rmtdevImg from "@/public/rmtdev.png";
-import wordanalyticsImg from "@/public/wordanalytics.png";
+import Genius from "@/public/genious.jpeg";
+import StudyNotion from "@/public/StudyNotion.png";
+import InsightXplorer from "@/public/Insightxplorer.jpg";
 
 export const links = [
   {
@@ -58,25 +59,28 @@ export const links = [
 
 export const projectsData = [
   {
-    title: "CorpComment",
+    title: "Genius",
     description:
-      "I worked as a full-stack developer on this startup project for 2 years. Users can give public feedback to companies.",
-    tags: ["React", "Next.js", "MongoDB", "Tailwind", "Prisma"],
-    imageUrl: corpcommentImg,
+      "I led a team to create an advanced AI platform with five tools. We used Next.js for smooth navigation and integrated Stripe for payments. Our tech mix included React, Tailwind, Prisma, MySQL, Clerk, and more, giving users rich learning experiences.",
+    tags: ["React", "Next.js", "Stripe", "Tailwind", "Prisma"],
+    imageUrl: Genius,
+    links: 'https://github.com/SatyaisCoding/genius',
   },
   {
-    title: "rmtDev",
+    title: "StudyNotion",
     description:
-      "Job board for remote developer jobs. I was the front-end developer. It has features like filtering, sorting and pagination.",
-    tags: ["React", "TypeScript", "Next.js", "Tailwind", "Redux"],
-    imageUrl: rmtdevImg,
+      "Developed StudyNotion, a fully functional ed-tech platform using the MERN Stack, enabling content creation, consumption, and rating, with proficiency in ReactJS, NodeJS, MongoDB, and ExpressJS, employing REST API design principles, deploying via Vercel, Render.com, and Railway.app, and integrating MongoDB Atlas for efficient database management.",
+    tags: ["React", "ExpressJS", "NodeJS", "Tailwind", "MongoDB"],
+    imageUrl: StudyNotion,
+    links:'https://github.com/SatyaisCoding/StudyNotion_An-Edu-Tech-Platform',
   },
   {
     title: "Word Analytics",
     description:
-      "A public web app for quick analytics on text. It shows word count, character count and social media post limits.",
-    tags: ["React", "Next.js", "SQL", "Tailwind", "Framer"],
-    imageUrl: wordanalyticsImg,
+      "Developed a SaaS product with an AI-powered chatbot for PDF interaction, utilizing PlanetScale MySQL, Prisma, trpc, Pinecone, Langchain, KindeAuth, and Stripe for secure user profiles, data transfer, optimization, authentication, and payments.",
+    tags: ["React", "Next.js", "Prisma", "Tailwind", "tRPC"],
+    imageUrl: InsightXplorer,
+    links:'https://github.com/SatyaisCoding/Insight-Xplorer',
   },
 ] as const;
 
