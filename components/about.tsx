@@ -1,13 +1,12 @@
 "use client";
-import React from "react";
+
 import SectionHeading from "./section-heading";
 import { motion } from "framer-motion";
-import { useInView } from "react-intersection-observer";
+import { useSectionInView } from "../lib/hooks";
 
 
 export default function About() {
-  const { ref, inView } = useInView();
-  console.log(inView);
+  const { ref } = useSectionInView("About");
 
   return (
     <motion.section

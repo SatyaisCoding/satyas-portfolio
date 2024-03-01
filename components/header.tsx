@@ -40,6 +40,7 @@ export default function Header() {
                 onClick={() => {
                   setActiveSection(link.name);
                   setTimeOfLastClick(Date.now());
+                  setActiveSection(link.name);
                 }}
               >
                 {link.name}

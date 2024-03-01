@@ -4,14 +4,18 @@ import { motion } from "framer-motion";
 import Image from 'next/image';
 import profilex from '../public/main_image.jpg';
 import Link from 'next/link';
+import { useSectionInView } from '@/lib/hooks';
+import { useActiveSectionContext } from '@/context/active-section-context';
 
 
 import { ArrowDownToLineIcon, ArrowRight, GithubIcon,  LinkedinIcon, Twitter } from "lucide-react";
 
 
 export default function Intro() {
+    const { ref } = useSectionInView("Home", 0.5);
+    const { setActiveSection, setTimeOfLastClick } = useActiveSectionContext();
     return (
-        <section id='home' className='mb-28 max-w-[50rem] text-center mt-6 sm:mb-0 z-10 scroll-mt-[100rem]'>
+        <section ref={ref} id='home' className='mb-28 max-w-[50rem] text-center mt-6 sm:mb-0 z-10 scroll-mt-[100rem]'>
             <div className='flex items-center justify-center'>
                 <div className='relative'>
                     <motion.div
