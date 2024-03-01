@@ -34,7 +34,7 @@ function Contact() {
       <p className="text-gray-700 -mt-5 dark:text-white/80">
         Please contact me directly at{" "}
         <a className="underline" href="mailto:satya.sk.prakash@gmail.com">
-          satya.sk.prakash.com
+          satya.sk.prakash@gmail.com
         </a>{" "}
         or through this form.
       </p>

@@ -1,10 +1,9 @@
-import React from "react";
-import { FaPaperPlane } from "react-icons/fa";
-import { experimental_useFormStatus as useFormStatus } from "react-dom";
 
-export default function SubmitBtn() {
+import { Send } from "lucide-react";
+import { useFormStatus } from 'react-dom'
+
+function SubmitButton() {
   const { pending } = useFormStatus();
-
   return (
     <button
       type="submit"
@@ -12,13 +11,22 @@ export default function SubmitBtn() {
       disabled={pending}
     >
       {pending ? (
-        <div className="h-5 w-5 animate-spin rounded-full border-b-2 border-white"></div>
+        <div className="spinner absolute -top-[87px]">
+          <div className="bounce1"></div>
+          <div className="bounce2"></div>
+          <div className="bounce3"></div>
+        </div>
       ) : (
         <>
-          Submit{" "}
-          <FaPaperPlane className="text-xs opacity-70 transition-all group-hover:translate-x-1 group-hover:-translate-y-1" />{" "}
+          Submit {" "}
+          <Send
+            size={"12px"}
+            className=" opacity-70 transition-all group-hover:translate-x-1 group-hover:-translate-y-1"
+          />{" "}
         </>
       )}
     </button>
   );
 }
+
+export default SubmitButton;
