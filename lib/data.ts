@@ -1,8 +1,10 @@
 'use client'
 import React from "react";
+
 import Genius from "@/public/genious.jpeg";
 import StudyNotion from "@/public/StudyNotion.png";
 import InsightXplorer from "@/public/Insightxplorer.jpg";
+import { Network, Code2 } from "lucide-react";
 
 export const links = [
   {
@@ -33,28 +35,22 @@ export const links = [
 
 export const certificationsData = [
   {
-    title: "Graduated bootcamp",
-    location: "Miami, FL",
+    title: "Data Structure & Algorithm with Java",
+    links:"https://drive.google.com/file/d/1U0tBYKUvJcsgFNPG_xrmJFn_sJW83rc3/view?usp=drive_link",
+    tech:"Java",
     description:
-      "I graduated after 6 months of studying. I immediately found a job as a front-end developer.",
-    // icon: React.createElement(LuGraduationCap),
-    date: "2019",
+      "Apna College's Data Structures and Algorithms with Java course by Shraddha Khapra.",
+    icon: React.createElement(Network),
+    date: "2023",
   },
   {
-    title: "Front-End Developer",
-    location: "Orlando, FL",
+    title: "WEB Development [MERN Stack]",
+    links:"https://github.com/SatyaisCoding/StudyNotion_An-Edu-Tech-Platform",
+    tech:"MERN Stack",
     description:
-      "I worked as a front-end developer for 2 years in 1 job and 1 year in another job. I also upskilled to the full stack.",
-    // icon: React.createElement(CgWorkAlt),
-    date: "2019 - 2021",
-  },
-  {
-    title: "Full-Stack Developer",
-    location: "Houston, TX",
-    description:
-      "I'm now a full-stack developer working as a freelancer. My stack includes React, Next.js, TypeScript, Tailwind, Prisma and MongoDB. I'm open to full-time opportunities.",
-    // icon: React.createElement(FaReact),
-    date: "2021 - present",
+      "CodeHelp by Love Babbar is a insightful online course that provides a comprehensive guide to mastering Web Development using MERN Stack.",
+    icon: React.createElement(Code2),
+    date: "2023",
   },
 ] as const;
 
