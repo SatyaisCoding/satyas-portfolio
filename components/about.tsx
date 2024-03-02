@@ -23,7 +23,7 @@ export default function About() {
         <span className="font-medium">final</span> year student pursuing B.tech in Computer Science from Kanpur Institute of Technology.{" "} I am deeply engaged in 
         <span className="font-medium"> Full MERN stack web development</span>.{" "}
         <span className="italic">My favourite aspect of programming</span> lies in problem-solving and the exhilaration of mastering new technologies.
-        There's nothing quite like the satisfaction of resolving those pesky red squiggly lines!. My core stack comprises {" "}
+        {"There's nothing quite like the satisfaction of resolving those pesky red squiggly lines!."} My core stack comprises {" "}
         <span className="font-medium">
         React, Next.js, TailwindCSS, JavaScript, MongoDB, Node.js, Express.js, and Java ( Data Structures and Algorithms).
         </span>

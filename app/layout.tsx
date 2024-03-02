@@ -7,6 +7,7 @@ import { Toaster } from "react-hot-toast";
 import Footer from "@/components/footer";
 import ThemeContextProvider from "@/context/theme-context";
 import BuyCoffee from "@/components/BuyCoffee";
+import ThemeSwitch from "@/components/theme-switch";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -36,6 +37,7 @@ export default function RootLayout({
           <Footer />
           <Toaster position="bottom-right" reverseOrder={false} />
           <BuyCoffee />
+          <ThemeSwitch/>
           </ActiveSectionContextProvider>
           </ThemeContextProvider>
      
