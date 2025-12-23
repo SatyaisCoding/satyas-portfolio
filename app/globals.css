@@ -1,11 +1,10 @@
-
- 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 html {
   --line-color: #e5e7eb;
+  scroll-behavior: smooth;
 }
 
 html.dark {
@@ -13,9 +12,46 @@ html.dark {
 }
 
 .borderBlack {
-  @apply border border-black/10;
+  @apply border border-black/10 dark:border-white/10;
 }
 
+/* Modern gradient backgrounds */
+@layer utilities {
+  .gradient-mesh {
+    background: 
+      radial-gradient(at 0% 0%, rgba(120, 119, 198, 0.3) 0px, transparent 50%),
+      radial-gradient(at 100% 0%, rgba(255, 119, 198, 0.3) 0px, transparent 50%),
+      radial-gradient(at 100% 100%, rgba(120, 219, 255, 0.3) 0px, transparent 50%),
+      radial-gradient(at 0% 100%, rgba(255, 219, 120, 0.3) 0px, transparent 50%);
+  }
+  
+  .glass-effect {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+  }
+  
+  .text-gradient {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-purple-600 via-pink-600 to-blue-600;
+  }
+}
+
+/* Smooth animations */
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+/* Spinner */
 .spinner {
   margin: 100px auto 0;
   width: 70px;
@@ -26,7 +62,6 @@ html.dark {
   width: 10px;
   height: 10px;
   background-color: #333;
-
   border-radius: 100%;
   display: inline-block;
   -webkit-animation: sk-bouncedelay 1.4s infinite ease-in-out both;
@@ -56,4 +91,30 @@ html.dark {
     -webkit-transform: scale(1.0);
     transform: scale(1.0);
   }
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 0, 0, 0.3);
+}
+
+html.dark ::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+html.dark ::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.3);
 }

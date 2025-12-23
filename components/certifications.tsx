@@ -17,7 +17,7 @@ function Certifications() {
   const {ref} = useSectionInView('Certifications')
   const { theme} = useTheme()
   return (
-    <section ref={ref} id='certifications'className='scroll-mt-28 mb-28 sm:mb-40' >
+    <section ref={ref} id='certifications'className='scroll-mt-28 mb-28 sm:mb-40 px-4 mx-auto relative z-[1]' >
       <SectionHeading> My Certifications</SectionHeading>
       <VerticalTimeline lineColor="">
             {

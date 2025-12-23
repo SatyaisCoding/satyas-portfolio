@@ -1,7 +1,7 @@
 'use client'
 import React from "react";
 
-import Genius from "@/public/genious.jpeg";
+import Paka from "@/public/paka.png";
 import StudyNotion from "@/public/StudyNotion.png";
 import InsightXplorer from "@/public/Insightxplorer.jpg";
 import { Network, Code2 } from "lucide-react";
@@ -14,6 +14,10 @@ export const links = [
   {
     name: "About",
     hash: "#about",
+  },
+  {
+    name: "Experience",
+    hash: "#experience",
   },
   {
     name: "Projects",
@@ -56,12 +60,13 @@ export const certificationsData = [
 
 export const projectsData = [
   {
-    title: "Genius",
+    title: "Paka",
     description:
-      " I created a groundbreaking SaaS AI Platform that transforms text into diverse content, revolutionizing content creation with unmatched efficiency.",
-    tags: ["React", "Next.js", "Stripe", "Tailwind", "Prisma"],
-    imageUrl: Genius,
-    links: 'https://github.com/SatyaisCoding/genius',
+      " An AI-powered personal assistant that unifies tasks, notes, emails, and reminders for instant, context-aware productivity.",
+    tags: ["Next.js", "WebSockets", "Vector Database","LLM Models", "Cloud Deployment"],
+    imageUrl: Paka,
+    links: 'https://github.com/SatyaisCoding/paka',
+    demoUrl: 'https://paka-app.vercel.app/', // Add your live demo URL here
   },
   {
     title: "StudyNotion",
@@ -70,6 +75,7 @@ export const projectsData = [
     tags: ["React", "ExpressJS", "NodeJS", "Tailwind", "MongoDB"],
     imageUrl: StudyNotion,
     links: 'https://github.com/SatyaisCoding/StudyNotion_An-Edu-Tech-Platform',
+    demoUrl: '', // Add your live demo URL here if available
   },
   {
     title: "Insight-Xplorer",
@@ -78,29 +84,70 @@ export const projectsData = [
     tags: ["React", "Next.js", "Prisma", "Tailwind", "tRPC"],
     imageUrl: InsightXplorer,
     links: 'https://github.com/SatyaisCoding/Insight-Xplorer',
+    demoUrl: '', // Add your live demo URL here if available
   },
 ] as const;
 
 export const skillsData = [
-  "Java (DSA)",
-  "CSS",
-  "JavaScript",
-  "TypeScript",
-  "React",
-  "Next.js",
-  "Node.js",
-  "MongoDB",
-  "Git",
-  "Tailwind",
-  "KindeAuth",
-  "tRPC",
-  "Stripe",
-  "Prisma",
-  "MongoDB",
-  "shadcn/ui",
-  "Express",
+  // Programming Languages
+  { name: "Java", icon: "☕", level: 90, category: "Programming" },
+  { name: "Rust", icon: "🦀", level: 65, category: "Programming" },
+  { name: "JavaScript", icon: "⚡", level: 90, category: "Programming" },
+  { name: "TypeScript", icon: "📘", level: 80, category: "Programming" },
+  { name: "SQL", icon: "🗃️", level: 80, category: "Database" },
 
+  // Frontend
+  { name: "HTML", icon: "📄", level: 85, category: "Frontend" },
+  { name: "CSS", icon: "🎨", level: 85, category: "Frontend" },
+  { name: "ReactJS", icon: "⚛️", level: 88, category: "Frontend" },
+  { name: "Next.js", icon: "▲", level: 85, category: "Frontend" },
+  { name: "TailwindCSS", icon: "💨", level: 90, category: "Frontend" },
+  { name: "shadcn/ui", icon: "🎯", level: 85, category: "Frontend" },
+  { name: "Framer Motion", icon: "✨", level: 80, category: "Frontend" },
 
+  // Backend & APIs
+  { name: "Node.js", icon: "🟢", level: 80, category: "Backend" },
+  { name: "Express.js", icon: "🚀", level: 82, category: "Backend" },
+  { name: "Spring Boot", icon: "🌱", level: 80, category: "Backend" },
+  { name: "REST API", icon: "🌐", level: 85, category: "Backend" },
+  { name: "tRPC", icon: "🔷", level: 75, category: "Backend" },
+  { name: "WebSockets", icon: "🔌", level: 75, category: "Backend" },
+  { name: "KindeAuth", icon: "🔐", level: 70, category: "Backend" },
+  { name: "Kafka", icon: "📡", level: 75, category: "Backend" },
 
-  "Framer Motion",
+  // Databases
+  { name: "MongoDB", icon: "🍃", level: 80, category: "Database" },
+  { name: "PostgreSQL", icon: "🐘", level: 80, category: "Database" },
+  { name: "Qdrant (Vector DB)", icon: "📊", level: 70, category: "Database" },
+  { name: "Redis", icon: "🧠", level: 75, category: "Database" },
+  { name: "Prisma", icon: "🗄️", level: 80, category: "Database" },
+
+  // Tools & Platforms
+  { name: "Git", icon: "🔀", level: 85, category: "Tools" },
+  { name: "Docker", icon: "🐳", level: 80, category: "Tools" },
+  { name: "SonarQube", icon: "📈", level: 75, category: "Tools" },
+  { name: "Firebase", icon: "🔥", level: 75, category: "Tools" },
+  { name: "Vercel", icon: "☁️", level: 80, category: "Tools" },
+  { name: "Postman", icon: "📫", level: 85, category: "Tools" },
+  { name: "Stripe", icon: "💳", level: 70, category: "Tools" },
+  { name: "OpenAI API", icon: "🤖", level: 70, category: "Tools" },
+] as const;
+
+export const experienceData = [
+  {
+    title: "Developer - Java",
+    location: "CyberEvolve Technologies Pvt. Ltd, New Delhi",
+    description:
+      "Working as a backend Java developer on SIEM and SOAR modules, designing and optimizing microservices using Spring Boot, JPA/Hibernate, SQL and Kafka. Built end-to-end playbooks and FortiGate firewall automations that reduce manual incident handling, integrated SonarQube into CI/CD for better code quality, and implemented multi-database support (MySQL/PostgreSQL) and rich notification/reporting workflows.",
+    icon: React.createElement(Code2),
+    date: "Apr 2024 - Present",
+  },
+  {
+    title: "Student",
+    location: "Kanpur Institute of Technology",
+    description:
+      "Pursuing B.Tech in Computer Science. Focused on Full-Stack Web Development, Data Structures & Algorithms, and modern web technologies.",
+    icon: React.createElement(Network),
+    date: "2020 - 2024",
+  },
 ] as const;
