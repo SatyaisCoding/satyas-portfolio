@@ -40,7 +40,7 @@ export const links = [
 export const certificationsData = [
   {
     title: "0-100 Full Stack Web Development Course",
-    links:"",
+    links:"https://res.cloudinary.com/dkqcnunzo/image/upload/v1766648931/certificate_vu2n5k.png",
     tech:"Full Stack Web Development",
     description:
       "100xdevs comprehensive Full Stack Web Development course by Harkirat Singh, covering modern web technologies and best practices.",

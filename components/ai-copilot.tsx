@@ -12,13 +12,16 @@ interface Message {
 
 export default function AICopilot() {
   const [isOpen, setIsOpen] = useState(false);
+  const [showShortcuts, setShowShortcuts] = useState(false);
+  const [instagramCountdown, setInstagramCountdown] = useState<number | null>(null);
+  const countdownIntervalRef = useRef<NodeJS.Timeout | null>(null);
   
   // Get personalized greeting based on visitor type
   const getInitialMessage = () => {
     if (typeof window !== 'undefined') {
       const visitorType = localStorage.getItem('visitor-type');
       if (visitorType === 'hiring') {
-        return "Hello! 👋 I'm Satya's AI assistant. I see you're here for hiring - that's great! I can tell you all about Satya's skills, experience, projects, and why he'd be a great fit for your team. What would you like to know?";
+        return "Hello! 👋 Welcome, recruiter! I'm Satya's AI assistant. I can help you learn about Satya's qualifications, experience, projects, and skills. Use the shortcuts below to get started, or ask me anything!";
       } else if (visitorType === 'visiting') {
         return "Hi there! 👋 I'm Satya's AI assistant. Welcome to the portfolio! Feel free to ask me anything about Satya, his projects, skills, experience, or anything else you're curious about!";
       }
@@ -37,6 +40,24 @@ export default function AICopilot() {
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const { theme } = useTheme();
 
+  // Shortcut prompts for hiring
+  const hiringShortcuts = [
+    "Tell me about Satya's experience",
+    "What are Satya's key skills?",
+    "Show me Satya's projects",
+    "Why should I hire Satya?",
+    "What technologies does Satya know?",
+  ];
+
+  // Shortcut prompts for visiting (casual visitors)
+  const visitingShortcuts = [
+    "Are you a stalker? Here to stalk?",
+    "Tell me about Satya's projects",
+    "What are Satya's skills?",
+    "Show me Satya's experience",
+    "What technologies does Satya know?",
+  ];
+
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   };
@@ -45,6 +66,50 @@ export default function AICopilot() {
     scrollToBottom();
   }, [messages]);
 
+  // Cleanup countdown on unmount
+  useEffect(() => {
+    return () => {
+      if (countdownIntervalRef.current) {
+        clearInterval(countdownIntervalRef.current);
+        countdownIntervalRef.current = null;
+      }
+      setInstagramCountdown(null);
+    };
+  }, []);
+
+  // Listen for open copilot event (from welcome modal)
+  useEffect(() => {
+    const handleOpenCopilot = (event: CustomEvent) => {
+      const visitorType = event.detail;
+      setIsOpen(true);
+      if (visitorType === 'hiring') {
+        setShowShortcuts(true);
+        // Update message for hiring
+        if (messages.length === 1) {
+          setMessages([{
+            role: 'assistant',
+            content: "Hello! 👋 Welcome, recruiter! I'm Satya's AI assistant. I can help you learn about Satya's qualifications, experience, projects, and skills. Use the shortcuts below to get started, or ask me anything!",
+          }]);
+        }
+      } else if (visitorType === 'visiting') {
+        setShowShortcuts(true);
+        // Update message for visiting
+        if (messages.length === 1) {
+          setMessages([{
+            role: 'assistant',
+            content: "Hi there! 👋 I'm Satya's AI assistant. Welcome to the portfolio! Feel free to ask me anything about Satya, his projects, skills, experience, or anything else you're curious about!",
+          }]);
+        }
+      }
+    };
+
+    window.addEventListener('open-ai-copilot', handleOpenCopilot as EventListener);
+    
+    return () => {
+      window.removeEventListener('open-ai-copilot', handleOpenCopilot as EventListener);
+    };
+  }, [messages.length]);
+
   // Update greeting when visitor type changes
   useEffect(() => {
     const handleVisitorTypeChange = (event: CustomEvent) => {
@@ -52,10 +117,13 @@ export default function AICopilot() {
       if (messages.length === 1) {
         // Only update if it's still the initial message
         const newMessage = visitorType === 'hiring'
-          ? "Hello! 👋 I'm Satya's AI assistant. I see you're here for hiring - that's great! I can tell you all about Satya's skills, experience, projects, and why he'd be a great fit for your team. What would you like to know?"
+          ? "Hello! 👋 Welcome, recruiter! I'm Satya's AI assistant. I can help you learn about Satya's qualifications, experience, projects, and skills. Use the shortcuts below to get started, or ask me anything!"
           : "Hi there! 👋 I'm Satya's AI assistant. Welcome to the portfolio! Feel free to ask me anything about Satya, his projects, skills, experience, or anything else you're curious about!";
         
         setMessages([{ role: 'assistant', content: newMessage }]);
+        if (visitorType === 'hiring' || visitorType === 'visiting') {
+          setShowShortcuts(true);
+        }
       }
     };
 
@@ -67,13 +135,65 @@ export default function AICopilot() {
     };
   }, [messages.length]);
 
-  const handleSend = async () => {
-    if (!input.trim() || isLoading) return;
+  // Check if visitor is hiring or visiting when copilot opens
+  useEffect(() => {
+    if (isOpen && typeof window !== 'undefined') {
+      const visitorType = localStorage.getItem('visitor-type');
+      if (visitorType === 'hiring' || visitorType === 'visiting') {
+        setShowShortcuts(true);
+      }
+    } else {
+      setShowShortcuts(false);
+    }
+  }, [isOpen]);
 
-    const userMessage: Message = { role: 'user', content: input };
+
+  const handleSend = async (customMessage?: string) => {
+    const messageToSend = customMessage || input;
+    if (!messageToSend.trim() || isLoading) return;
+
+    // Handle stalker question specially - redirect to Instagram with countdown
+    if (messageToSend.toLowerCase().includes('stalker') || messageToSend.toLowerCase().includes('stalk')) {
+      const stalkerResponse: Message = {
+        role: 'assistant',
+        content: `Haha! 😂 Caught you! 🕵️‍♂️\n\nIf you're here to stalk, why don't you go check out Instagram instead? There are much more interesting things to stalk there! 📸✨\n\nHere's my Instagram profile: https://www.instagram.com/_satya_._prakash_/\n\nBut hey, while you're here, feel free to ask me about Satya's projects, skills, or anything else! I'm actually pretty helpful when you're not trying to stalk! 😄`,
+      };
+      setMessages((prev) => [...prev, { role: 'user', content: messageToSend }, stalkerResponse]);
+      setInput('');
+      setShowShortcuts(false);
+      
+      // Clear any existing countdown
+      if (countdownIntervalRef.current) {
+        clearInterval(countdownIntervalRef.current);
+      }
+      
+      // Start countdown from 10 seconds
+      setInstagramCountdown(10);
+      
+      // Countdown timer
+      let countdown = 10;
+      countdownIntervalRef.current = setInterval(() => {
+        countdown -= 1;
+        setInstagramCountdown(countdown);
+        
+        if (countdown <= 0) {
+          if (countdownIntervalRef.current) {
+            clearInterval(countdownIntervalRef.current);
+            countdownIntervalRef.current = null;
+          }
+          setInstagramCountdown(null);
+          window.open('https://www.instagram.com/_satya_._prakash_/', '_blank');
+        }
+      }, 1000);
+      
+      return;
+    }
+
+    const userMessage: Message = { role: 'user', content: messageToSend };
     const updatedMessages = [...messages, userMessage];
     setMessages(updatedMessages);
     setInput('');
+    setShowShortcuts(false); // Hide shortcuts after first message
     setIsLoading(true);
 
     try {
@@ -81,7 +201,7 @@ export default function AICopilot() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ 
-          message: input,
+          message: messageToSend,
           conversationHistory: updatedMessages.slice(-6), // Send last 6 messages for context
         }),
       });
@@ -159,6 +279,29 @@ export default function AICopilot() {
 
             {/* Messages */}
             <div className="flex-1 overflow-y-auto p-4 space-y-4">
+              {/* Shortcut prompts for hiring or visiting */}
+              {showShortcuts && messages.length === 1 && (() => {
+                const visitorType = typeof window !== 'undefined' ? localStorage.getItem('visitor-type') : null;
+                const shortcuts = visitorType === 'hiring' ? hiringShortcuts : visitingShortcuts;
+                
+                return (
+                  <div className="mb-4">
+                    <p className="text-xs font-semibold text-gray-600 dark:text-gray-400 mb-2">Quick questions:</p>
+                    <div className="flex flex-wrap gap-2">
+                      {shortcuts.map((shortcut, index) => (
+                        <button
+                          key={index}
+                          onClick={() => handleSend(shortcut)}
+                          className="px-3 py-1.5 text-xs bg-gradient-to-r from-purple-100 to-pink-100 dark:from-purple-900/30 dark:to-pink-900/30 text-purple-700 dark:text-purple-300 rounded-full hover:from-purple-200 hover:to-pink-200 dark:hover:from-purple-900/50 dark:hover:to-pink-900/50 transition-all cursor-pointer border border-purple-200 dark:border-purple-800"
+                        >
+                          {shortcut}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                );
+              })()}
+              
               {messages.map((message, index) => (
                 <div
                   key={index}
@@ -201,6 +344,19 @@ export default function AICopilot() {
                   </div>
                 </div>
               )}
+              {/* Instagram countdown timer */}
+              {instagramCountdown !== null && instagramCountdown > 0 && (
+                <div className="flex gap-2 justify-start">
+                  <div className="w-8 h-8 rounded-full bg-gradient-to-r from-purple-600 to-pink-600 flex items-center justify-center flex-shrink-0">
+                    <Bot size={16} className="text-white" />
+                  </div>
+                  <div className="bg-gradient-to-r from-purple-100 to-pink-100 dark:from-purple-900/30 dark:to-pink-900/30 rounded-2xl px-4 py-2 border border-purple-200 dark:border-purple-800">
+                    <p className="text-sm font-semibold text-purple-700 dark:text-purple-300">
+                      Opening Satya&apos;s Instagram account in <span className="text-purple-900 dark:text-purple-100 font-bold text-base">{instagramCountdown}</span> seconds... 📸
+                    </p>
+                  </div>
+                </div>
+              )}
               <div ref={messagesEndRef} />
             </div>
 
@@ -217,7 +373,7 @@ export default function AICopilot() {
                   disabled={isLoading}
                 />
                 <button
-                  onClick={handleSend}
+                  onClick={() => handleSend()}
                   disabled={!input.trim() || isLoading}
                   className="w-10 h-10 rounded-full bg-gradient-to-r from-purple-600 to-pink-600 text-white flex items-center justify-center hover:from-purple-700 hover:to-pink-700 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
                 >

@@ -3,11 +3,11 @@ import { NextResponse } from 'next/server';
 // Import data - Note: We'll define the data directly here to avoid client component issues
 const projectsData = [
   {
-    title: "Genius",
-    description: "I created a groundbreaking SaaS AI Platform that transforms text into diverse content, revolutionizing content creation with unmatched efficiency.",
-    tags: ["React", "Next.js", "Stripe", "Tailwind", "Prisma"],
-    links: 'https://github.com/SatyaisCoding/genius',
-    demoUrl: 'https://genius-saas.vercel.app',
+    title: "Paka",
+    description: "An AI-powered personal assistant that unifies tasks, notes, emails, and reminders for instant, context-aware productivity.",
+    tags: ["Next.js", "WebSockets", "Vector Database", "LLM Models", "Cloud Deployment"],
+    links: 'https://github.com/SatyaisCoding/paka',
+    demoUrl: 'https://paka-app.vercel.app/',
   },
   {
     title: "StudyNotion",
@@ -156,6 +156,195 @@ const portfolioContext = {
 async function generateResponse(userMessage: string, conversationHistory: any[] = []): Promise<string> {
   const message = userMessage.toLowerCase().trim();
   const words = message.split(/\s+/);
+  
+  // Handle stalker question (funny response)
+  if (message.includes('stalker') || message.includes('stalk') || message.includes('stalking')) {
+    return `Haha! 😂 Caught you! 🕵️‍♂️\n\nIf you're here to stalk, why don't you go check out Instagram instead? There are much more interesting things to stalk there! 📸✨\n\nHere's my Instagram profile: https://www.instagram.com/_satya_._prakash_/\n\nBut hey, while you're here, feel free to ask me about Satya's projects, skills, or anything else! I'm actually pretty helpful when you're not trying to stalk! 😄`;
+  }
+  
+  // Handle specific shortcut questions FIRST for better accuracy
+  if (message.includes("tell me about satya's experience") || message.includes("about satya's experience") || message.includes("satya's experience")) {
+    const javaExp = portfolioContext.experience.find(e => e.title.toLowerCase().includes('developer - java'));
+    const studentExp = portfolioContext.experience.find(e => e.title.includes('Student'));
+    
+    let response = `**Satya's Professional Experience**\n\n`;
+    
+    if (javaExp) {
+      response += `**${javaExp.title}** at ${javaExp.location}\n**Duration:** ${javaExp.period}\n\n`;
+      response += `${javaExp.description}\n\n`;
+      response += `**Key Achievements:**\n`;
+      response += `• **Microservices Architecture:** Designed, engineered, and enhanced microservices across SIEM and SOAR modules (Collector, Rule Engine, Analytics, DMP, Playbook), resulting in measurable improvements in scalability, performance, and reliability\n`;
+      response += `• **SOAR Playbook Development:** Developed end-to-end SOAR playbooks integrating Fortinet Firewall, Windows Active Directory, and other enterprise security platforms, enabling streamlined firewall block/unblock actions and user enable/disable operations, reducing manual effort by 60%\n`;
+      response += `• **Firewall Automation:** Automated FortiGate firewall integration with the SOAR platform, reducing manual incident handling by 45% and improving response resolution times through end-to-end workflow automation\n`;
+      response += `• **Code Quality:** Integrated SonarQube into Jenkins CI/CD pipeline to automate static code analysis, detecting 5000+ issues within 3 months, reducing technical debt by 35% and improving test coverage by 20%\n`;
+      response += `• **Notification Systems:** Programmed automated email notification systems in SOAR ticket management and DMP Indexer-agent, improving response time by 20% and reducing manual follow-ups by 30%\n`;
+      response += `• **Multi-Database Support:** Built a Spring Boot database abstraction layer enabling runtime switching between MySQL and PostgreSQL, reducing client onboarding effort and decreasing deployment time by 40%\n\n`;
+    }
+    
+    if (studentExp) {
+      response += `**${studentExp.title}** - ${studentExp.location}\n**Duration:** ${studentExp.period}\n\n`;
+      response += `${studentExp.description}\n\n`;
+      response += `**Academic Focus:**\n`;
+      response += `• Full-Stack Web Development\n`;
+      response += `• Data Structures & Algorithms (Java)\n`;
+      response += `• Modern web technologies and best practices\n`;
+      response += `• Building production-ready applications\n`;
+    }
+    
+    response += `\n**Summary:** Satya brings nearly 2 years of professional industry experience as a Java Developer, specializing in backend development, microservices, and security automation. Combined with his strong academic foundation and hands-on project experience, he's well-equipped for challenging full-stack development roles.`;
+    
+    return response;
+  }
+  
+  if (message.includes("what are satya's key skills") || message.includes("satya's key skills") || message.includes("key skills")) {
+    const topSkills = portfolioContext.skills.filter(s => s.level >= 85).map(s => `${s.name} (${s.level}%)`).join(', ');
+    const advancedSkills = portfolioContext.skills.filter(s => s.level >= 75 && s.level < 85).map(s => `${s.name} (${s.level}%)`).join(', ');
+    
+    const frontend = portfolioContext.skills.filter(s => s.category === 'Frontend');
+    const backend = portfolioContext.skills.filter(s => s.category === 'Backend');
+    const database = portfolioContext.skills.filter(s => s.category === 'Database');
+    const programming = portfolioContext.skills.filter(s => s.category === 'Programming');
+    const tools = portfolioContext.skills.filter(s => s.category === 'Tools');
+    
+    let response = `**Satya's Key Skills & Expertise**\n\n`;
+    response += `**Expert Level (85%+):** ${topSkills}\n\n`;
+    response += `**Advanced Level (75-84%):** ${advancedSkills}\n\n`;
+    
+    response += `**By Category:**\n\n`;
+    response += `**Programming Languages:**\n${programming.map(s => `• ${s.name} - ${s.level}%`).join('\n')}\n\n`;
+    response += `**Frontend Technologies:**\n${frontend.map(s => `• ${s.name} - ${s.level}%`).join('\n')}\n\n`;
+    response += `**Backend & APIs:**\n${backend.map(s => `• ${s.name} - ${s.level}%`).join('\n')}\n\n`;
+    response += `**Databases:**\n${database.map(s => `• ${s.name} - ${s.level}%`).join('\n')}\n\n`;
+    response += `**Tools & Platforms:**\n${tools.map(s => `• ${s.name} - ${s.level}%`).join('\n')}\n\n`;
+    
+    response += `**Core Strengths:**\n`;
+    response += `• **MERN Stack Specialist:** Expert-level proficiency in MongoDB, Express.js, React, and Node.js\n`;
+    response += `• **Modern Frameworks:** Strong expertise in Next.js, TypeScript, and Tailwind CSS\n`;
+    response += `• **Backend Development:** Professional experience with Java, Spring Boot, microservices, and Kafka\n`;
+    response += `• **Full-Stack Capability:** Can handle both frontend and backend development independently\n`;
+    response += `• **AI Integration:** Experience with OpenAI API, vector databases, and AI-powered features\n`;
+    response += `• **DevOps & Tools:** Proficient with Docker, Git, CI/CD, SonarQube, and cloud deployment\n\n`;
+    response += `**Total Skills:** ${portfolioContext.skills.length} technologies across 5 major categories`;
+    
+    return response;
+  }
+  
+  if (message.includes("show me satya's projects") || message.includes("satya's projects") || message.includes("projects")) {
+    const projectList = portfolioContext.projects.map((p, i) => {
+      return `**${i + 1}. ${p.title}**\n${p.description}\n\n**Technologies:** ${p.technologies}\n**GitHub:** ${p.github}${p.demo ? `\n**Live Demo:** ${p.demo}` : ''}\n`;
+    }).join('\n---\n\n');
+    
+    let response = `**Satya's Projects Portfolio**\n\n`;
+    response += `Satya has built **${portfolioContext.projects.length} major production-ready projects**, each demonstrating different aspects of full-stack development:\n\n`;
+    response += `${projectList}`;
+    response += `**Project Highlights:**\n\n`;
+    response += `**1. Paka** - AI-powered personal assistant unifying tasks, notes, emails, and reminders. Built with Next.js, WebSockets, Vector Database, and LLM Models. Demonstrates advanced AI integration and real-time communication.\n\n`;
+    response += `**2. StudyNotion** - Fully functional ed-tech platform using MERN Stack. Enables content creation, consumption, and rating of educational content. Showcases complete CRUD operations, user authentication, and full-stack architecture.\n\n`;
+    response += `**3. Insight-Xplorer** - SAAS product with AI-powered chatbot for seamless PDF interaction. Built with React, Next.js, Prisma, Tailwind, and tRPC. Demonstrates document processing, AI integration, and modern SaaS architecture.\n\n`;
+    response += `**Common Themes:**\n`;
+    response += `• All projects use modern React-based frontends\n• Integration of AI capabilities and modern APIs\n• Production-ready with proper architecture\n• Demonstrates versatility across different domains (SaaS, EdTech, AI tools)\n`;
+    
+    return response;
+  }
+  
+  if (message.includes("why should i hire satya") || message.includes("hire satya") || message.includes("why hire")) {
+    const topSkills = portfolioContext.skills.filter(s => s.level >= 85).map(s => s.name).join(', ');
+    const projectCount = portfolioContext.projects.length;
+    
+    let response = `**Why Hire Satya Prakash?**\n\n`;
+    response += `**1. Professional Industry Experience**\n`;
+    response += `• Nearly 2 years as a Java Developer at CyberEvolve Technologies\n`;
+    response += `• Hands-on experience with microservices, SIEM/SOAR platforms, and enterprise security solutions\n`;
+    response += `• Proven track record of reducing manual effort by 45-60% through automation\n`;
+    response += `• Integrated CI/CD pipelines and improved code quality metrics\n\n`;
+    
+    response += `**2. Strong Technical Foundation**\n`;
+    response += `• Expert-level skills in: ${topSkills}\n`;
+    response += `• Full-stack capability: Can work independently on both frontend and backend\n`;
+    response += `• Modern tech stack: MERN, Next.js, TypeScript, Spring Boot, Kafka\n`;
+    response += `• ${portfolioContext.skills.length} total technologies across programming, frontend, backend, databases, and tools\n\n`;
+    
+    response += `**3. Proven Project Portfolio**\n`;
+    response += `• Built ${projectCount} production-ready projects including SaaS platforms\n`;
+    response += `• Experience with AI integration, payment processing, and real-time features\n`;
+    response += `• Demonstrates ability to build scalable, modern applications\n`;
+    response += `• All projects showcase different aspects: SaaS, EdTech, AI tools\n\n`;
+    
+    response += `**4. Problem-Solving & Impact**\n`;
+    response += `• Reduced manual incident handling by 45% through automation\n`;
+    response += `• Decreased technical debt by 35% and improved test coverage by 20%\n`;
+    response += `• Reduced client onboarding time by 40% through multi-database support\n`;
+    response += `• Built systems that improve efficiency and reduce manual work\n\n`;
+    
+    response += `**5. Continuous Learning & Growth**\n`;
+    response += `• Actively learning new technologies (AI, Web3, modern frameworks)\n`;
+    response += `• Completed multiple certifications (100xdevs Full Stack, DSA with Java, MERN Stack)\n`;
+    response += `• Passionate about mastering new technologies and best practices\n`;
+    response += `• Strong appetite for learning and broadening technical horizons\n\n`;
+    
+    response += `**6. Ready to Contribute**\n`;
+    response += `• Available for immediate start\n`;
+    response += `• Seeking opportunities that offer challenges, growth, and meaningful impact\n`;
+    response += `• Can work independently or as part of a team\n`;
+    response += `• Strong communication skills and professional demeanor\n\n`;
+    
+    response += `**Ideal For:**\n`;
+    response += `• Full-Stack Developer roles\n`;
+    response += `• Backend Developer positions (Java/Spring Boot experience)\n`;
+    response += `• Frontend Developer roles (React/Next.js expertise)\n`;
+    response += `• Teams building modern web applications with AI features\n`;
+    response += `• Companies looking for someone who can grow and take on challenges\n\n`;
+    
+    response += `**Contact:** ${portfolioContext.email} | LinkedIn: ${portfolioContext.social.linkedin}`;
+    
+    return response;
+  }
+  
+  if (message.includes("what technologies does satya know") || message.includes("technologies does satya know") || message.includes("technologies")) {
+    const frontend = portfolioContext.skills.filter(s => s.category === 'Frontend');
+    const backend = portfolioContext.skills.filter(s => s.category === 'Backend');
+    const database = portfolioContext.skills.filter(s => s.category === 'Database');
+    const programming = portfolioContext.skills.filter(s => s.category === 'Programming');
+    const tools = portfolioContext.skills.filter(s => s.category === 'Tools');
+    
+    let response = `**Technologies Satya Knows**\n\n`;
+    response += `Satya has expertise in **${portfolioContext.skills.length} technologies** across 5 major categories:\n\n`;
+    
+    response += `**Programming Languages:**\n`;
+    response += programming.map(s => `• ${s.name} (${s.level}% proficiency)`).join('\n');
+    response += `\n\n`;
+    
+    response += `**Frontend Technologies:**\n`;
+    response += frontend.map(s => `• ${s.name} (${s.level}% proficiency)`).join('\n');
+    response += `\n\n`;
+    
+    response += `**Backend & APIs:**\n`;
+    response += backend.map(s => `• ${s.name} (${s.level}% proficiency)`).join('\n');
+    response += `\n\n`;
+    
+    response += `**Databases:**\n`;
+    response += database.map(s => `• ${s.name} (${s.level}% proficiency)`).join('\n');
+    response += `\n\n`;
+    
+    response += `**Tools & Platforms:**\n`;
+    response += tools.map(s => `• ${s.name} (${s.level}% proficiency)`).join('\n');
+    response += `\n\n`;
+    
+    response += `**Core Technology Stack:**\n`;
+    response += `• **MERN Stack:** MongoDB, Express.js, React, Node.js\n`;
+    response += `• **Modern Frontend:** Next.js, TypeScript, Tailwind CSS, Framer Motion\n`;
+    response += `• **Backend:** Java, Spring Boot, Node.js, Express.js, REST API, tRPC\n`;
+    response += `• **Databases:** MongoDB, PostgreSQL, SQL, Redis, Qdrant (Vector DB)\n`;
+    response += `• **DevOps:** Docker, Git, SonarQube, CI/CD, Vercel, Firebase\n`;
+    response += `• **AI & APIs:** OpenAI API, WebSockets, Kafka, Stripe\n\n`;
+    
+    response += `**Proficiency Breakdown:**\n`;
+    response += `• **Expert (85%+):** ${portfolioContext.skills.filter(s => s.level >= 85).length} technologies\n`;
+    response += `• **Advanced (75-84%):** ${portfolioContext.skills.filter(s => s.level >= 75 && s.level < 85).length} technologies\n`;
+    response += `• **Intermediate (60-74%):** ${portfolioContext.skills.filter(s => s.level >= 60 && s.level < 75).length} technologies\n`;
+    
+    return response;
+  }
   
   // Visitor statistics (hidden feature - check FIRST before other "hiring" matches)
   // Import the readCounts function logic inline to avoid fetch issues

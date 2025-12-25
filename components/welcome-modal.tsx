@@ -11,21 +11,15 @@ export default function WelcomeModal() {
   const { theme } = useTheme();
 
   useEffect(() => {
-    // Check if user has seen the modal before
-    const seen = localStorage.getItem('portfolio-welcome-seen');
-    if (!seen) {
-      // Show modal after a short delay for better UX
-      setTimeout(() => {
-        setIsOpen(true);
-      }, 1000);
-    } else {
-      setHasSeenModal(true);
-    }
+    // Show modal on every page refresh/load
+    // Always show it when the component mounts (on page refresh)
+    setTimeout(() => {
+      setIsOpen(true);
+    }, 1000);
   }, []);
 
   const handleChoice = async (choice: 'hiring' | 'visiting') => {
-    // Store the choice and mark modal as seen
-    localStorage.setItem('portfolio-welcome-seen', 'true');
+    // Store the choice in localStorage (persists across sessions)
     localStorage.setItem('visitor-type', choice);
     
     // Track the visit (secretly, no UI feedback)
@@ -43,25 +37,21 @@ export default function WelcomeModal() {
     // Dispatch custom event to notify other components
     if (typeof window !== 'undefined') {
       window.dispatchEvent(new CustomEvent('visitor-type-changed', { detail: choice }));
+      
+      // If hiring, trigger AI Copilot to open automatically
+      if (choice === 'hiring') {
+        setTimeout(() => {
+          window.dispatchEvent(new CustomEvent('open-ai-copilot', { detail: 'hiring' }));
+        }, 300);
+      }
     }
     
     setIsOpen(false);
     setHasSeenModal(true);
-
-    // Optional: You can use this choice to customize the experience
-    // For example, scroll to contact section if hiring, or show different content
-    if (choice === 'hiring') {
-      setTimeout(() => {
-        const contactSection = document.getElementById('contact');
-        if (contactSection) {
-          contactSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }
-      }, 500);
-    }
   };
 
   const handleClose = () => {
-    localStorage.setItem('portfolio-welcome-seen', 'true');
+    // Just close the modal - it will show again on next page refresh
     setIsOpen(false);
     setHasSeenModal(true);
   };
