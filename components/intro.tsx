@@ -88,7 +88,7 @@ export default function Intro() {
 
                 <a
                     className="group bg-white/80 backdrop-blur-sm px-7 py-3 gap-2 flex items-center justify-center rounded-full outline-none focus:scale-110 hover:scale-110 active:scale-105 transition borderBlack dark:bg-white/10 dark:backdrop-blur-md hover:bg-white dark:hover:bg-white/20 shadow-md"
-                    href="/Resume_Satyaa.pdf"
+                    href="/Satya_Resume.pdf"
                     target='_blank'
                     download
                 >

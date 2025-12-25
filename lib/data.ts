@@ -39,6 +39,15 @@ export const links = [
 
 export const certificationsData = [
   {
+    title: "0-100 Full Stack Web Development Course",
+    links:"",
+    tech:"Full Stack Web Development",
+    description:
+      "100xdevs comprehensive Full Stack Web Development course by Harkirat Singh, covering modern web technologies and best practices.",
+    icon: React.createElement(Code2),
+    date: "Dec 2024",
+  },
+  {
     title: "Data Structure & Algorithm with Java",
     links:"https://drive.google.com/file/d/1U0tBYKUvJcsgFNPG_xrmJFn_sJW83rc3/view?usp=drive_link",
     tech:"Java",
